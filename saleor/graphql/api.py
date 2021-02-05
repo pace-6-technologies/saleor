@@ -23,6 +23,7 @@ from .translations.schema import TranslationQueries
 from .warehouse.schema import StockQueries, WarehouseMutations, WarehouseQueries
 from .webhook.schema import WebhookMutations, WebhookQueries
 
+from address_regions.schema import RegionQueries
 
 class Query(
     AccountQueries,
@@ -46,6 +47,7 @@ class Query(
     TranslationQueries,
     WarehouseQueries,
     WebhookQueries,
+    RegionQueries
 ):
     pass
 
