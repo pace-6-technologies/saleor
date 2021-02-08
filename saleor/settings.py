@@ -72,55 +72,8 @@ DATABASES = {
 TIME_ZONE = "UTC"
 LANGUAGE_CODE = "en"
 LANGUAGES = [
-    ("ar", "Arabic"),
-    ("az", "Azerbaijani"),
-    ("bg", "Bulgarian"),
-    ("bn", "Bengali"),
-    ("ca", "Catalan"),
-    ("cs", "Czech"),
-    ("da", "Danish"),
-    ("de", "German"),
-    ("el", "Greek"),
     ("en", "English"),
-    ("es", "Spanish"),
-    ("es-co", "Colombian Spanish"),
-    ("et", "Estonian"),
-    ("fa", "Persian"),
-    ("fi", "Finnish"),
-    ("fr", "French"),
-    ("hi", "Hindi"),
-    ("hu", "Hungarian"),
-    ("hy", "Armenian"),
-    ("id", "Indonesian"),
-    ("is", "Icelandic"),
-    ("it", "Italian"),
-    ("ja", "Japanese"),
-    ("ka", "Georgian"),
-    ("km", "Khmer"),
-    ("ko", "Korean"),
-    ("lt", "Lithuanian"),
-    ("mn", "Mongolian"),
-    ("my", "Burmese"),
-    ("nb", "Norwegian"),
-    ("nl", "Dutch"),
-    ("pl", "Polish"),
-    ("pt", "Portuguese"),
-    ("pt-br", "Brazilian Portuguese"),
-    ("ro", "Romanian"),
-    ("ru", "Russian"),
-    ("sk", "Slovak"),
-    ("sl", "Slovenian"),
-    ("sq", "Albanian"),
-    ("sr", "Serbian"),
-    ("sv", "Swedish"),
-    ("sw", "Swahili"),
-    ("ta", "Tamil"),
     ("th", "Thai"),
-    ("tr", "Turkish"),
-    ("uk", "Ukrainian"),
-    ("vi", "Vietnamese"),
-    ("zh-hans", "Simplified Chinese"),
-    ("zh-hant", "Traditional Chinese"),
 ]
 LOCALE_PATHS = [os.path.join(PROJECT_ROOT, "locale")]
 USE_I18N = True
@@ -167,6 +120,7 @@ MEDIA_URL = os.environ.get("MEDIA_URL", "/media/")
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
 STATIC_URL = os.environ.get("STATIC_URL", "/static/")
+
 STATICFILES_DIRS = [
     ("images", os.path.join(PROJECT_ROOT, "saleor", "static", "images"))
 ]
@@ -514,17 +468,17 @@ GRAPHENE = {
 PLUGINS_MANAGER = "saleor.plugins.manager.PluginsManager"
 
 PLUGINS = [
-    "saleor.plugins.avatax.plugin.AvataxPlugin",
-    "saleor.plugins.vatlayer.plugin.VatlayerPlugin",
+    # "saleor.plugins.avatax.plugin.AvataxPlugin",
+    # "saleor.plugins.vatlayer.plugin.VatlayerPlugin",
     "saleor.plugins.webhook.plugin.WebhookPlugin",
     "saleor.payment.gateways.promptpay.plugin.PromptPayGatewayPlugin",
-    "saleor.payment.gateways.dummy.plugin.DummyGatewayPlugin",
-    "saleor.payment.gateways.dummy_credit_card.plugin.DummyCreditCardGatewayPlugin",
-    "saleor.payment.gateways.stripe.plugin.StripeGatewayPlugin",
-    "saleor.payment.gateways.braintree.plugin.BraintreeGatewayPlugin",
-    "saleor.payment.gateways.razorpay.plugin.RazorpayGatewayPlugin",
-    "saleor.payment.gateways.adyen.plugin.AdyenGatewayPlugin",
-    "saleor.payment.gateways.authorize_net.plugin.AuthorizeNetGatewayPlugin",
+    # "saleor.payment.gateways.dummy.plugin.DummyGatewayPlugin",
+    # "saleor.payment.gateways.dummy_credit_card.plugin.DummyCreditCardGatewayPlugin",
+    # "saleor.payment.gateways.stripe.plugin.StripeGatewayPlugin",
+    # "saleor.payment.gateways.braintree.plugin.BraintreeGatewayPlugin",
+    # "saleor.payment.gateways.razorpay.plugin.RazorpayGatewayPlugin",
+    # "saleor.payment.gateways.adyen.plugin.AdyenGatewayPlugin",
+    # "saleor.payment.gateways.authorize_net.plugin.AuthorizeNetGatewayPlugin",
     "saleor.plugins.invoicing.plugin.InvoicingPlugin",
 ]
 
