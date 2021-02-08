@@ -9,7 +9,7 @@ from address_regions.models import Region
 class RegionNode(DjangoObjectType):
     class Meta:
         model = Region
-        fields = ("portal_code", "city_area", "city", "country_area")
+        fields = ("postal_code", "city_area", "city", "country_area")
         filter_fields = ["postal_code", "city_area", "city", "country_area", "language_code"]
         interfaces = (relay.Node, )
 
