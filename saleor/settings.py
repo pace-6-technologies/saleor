@@ -309,8 +309,8 @@ AUTH_PASSWORD_VALIDATORS = [
     }
 ]
 
-DEFAULT_COUNTRY = os.environ.get("DEFAULT_COUNTRY", "US")
-DEFAULT_CURRENCY = os.environ.get("DEFAULT_CURRENCY", "USD")
+DEFAULT_COUNTRY = os.environ.get("DEFAULT_COUNTRY", "TH")
+DEFAULT_CURRENCY = os.environ.get("DEFAULT_CURRENCY", "THB")
 DEFAULT_DECIMAL_PLACES = 3
 DEFAULT_MAX_DIGITS = 12
 DEFAULT_CURRENCY_CODE_LENGTH = 3
@@ -471,8 +471,8 @@ PLUGINS = [
     # "saleor.plugins.avatax.plugin.AvataxPlugin",
     # "saleor.plugins.vatlayer.plugin.VatlayerPlugin",
     "saleor.plugins.webhook.plugin.WebhookPlugin",
+    "saleor.payment.gateways.dummy.plugin.DummyGatewayPlugin",
     "saleor.payment.gateways.promptpay.plugin.PromptPayGatewayPlugin",
-    # "saleor.payment.gateways.dummy.plugin.DummyGatewayPlugin",
     # "saleor.payment.gateways.dummy_credit_card.plugin.DummyCreditCardGatewayPlugin",
     # "saleor.payment.gateways.stripe.plugin.StripeGatewayPlugin",
     # "saleor.payment.gateways.braintree.plugin.BraintreeGatewayPlugin",

@@ -14,6 +14,8 @@ from . import (
     void,
 )
 
+from promptpay import qrcode
+
 GATEWAY_NAME = "PromptPay"
 
 if TYPE_CHECKING:
@@ -25,14 +27,14 @@ class PromptPayGatewayPlugin(BasePlugin):
     PLUGIN_NAME = GATEWAY_NAME
     DEFAULT_ACTIVE = False
     DEFAULT_CONFIGURATION = [
-        {"name": "Automatic payment capture", "value": False},
+        {"name": "PromptPay ID", "value": ""},
         {"name": "Supported currencies", "value": "THB"},
     ]
     CONFIG_STRUCTURE = {
-        "Automatic payment capture": {
-            "type": ConfigurationTypeField.BOOLEAN,
-            "help_text": "Determines if Saleor should automaticaly capture payments.",
-            "label": "Automatic payment capture",
+        "PromptPay ID": {
+            "type": ConfigurationTypeField.STRING,
+            "help_text": "PromptPay Id, can be mobilephone or citizen id.",
+            "label": "PromptPay ID",
         },
         "Supported currencies": {
             "type": ConfigurationTypeField.STRING,
@@ -47,10 +49,13 @@ class PromptPayGatewayPlugin(BasePlugin):
         configuration = {item["name"]: item["value"] for item in self.configuration}
         self.config = GatewayConfig(
             gateway_name=GATEWAY_NAME,
-            auto_capture=configuration["Automatic payment capture"],
+            auto_capture=False,
             supported_currencies=configuration["Supported currencies"],
-            connection_params={}
+            connection_params = {
+                'promptpay_id': configuration["PromptPay ID"]
+            },
         )
+        self.promptpay_id = configuration["PromptPay ID"]
 
     def _get_gateway_config(self):
         return self.config
@@ -103,4 +108,6 @@ class PromptPayGatewayPlugin(BasePlugin):
     @require_active_plugin
     def get_payment_config(self, previous_value):
         config = self._get_gateway_config()
-        return [{"field": "store_customer_card", "value": config.store_customer}]
+        return [
+            { "field": "promptpay_id", "value": config.connection_params['promptpay_id']}
+        ]
