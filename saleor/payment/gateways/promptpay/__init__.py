@@ -42,7 +42,7 @@ def confirm(payment_information: PaymentData, config: GatewayConfig) -> GatewayR
 
 
 def refund(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
-    """Perform capture transaction. Will be done manually via dashboard"""
+    """Perform refund transaction. Will be done manually via dashboard"""
     error = None
     success = True
     if not success:
@@ -51,6 +51,20 @@ def refund(payment_information: PaymentData, config: GatewayConfig) -> GatewayRe
         is_success=success,
         action_required=False,
         kind=TransactionKind.REFUND,
+        amount=payment_information.amount,
+        currency=payment_information.currency,
+        transaction_id=payment_information.token or "",
+        error=error,
+    )
+
+def void(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
+    """Perform void transaction. Will be done manually via dashboard"""
+    error = None
+    success = True
+    return GatewayResponse(
+        is_success=success,
+        action_required=False,
+        kind=TransactionKind.VOID,
         amount=payment_information.amount,
         currency=payment_information.currency,
         transaction_id=payment_information.token or "",
