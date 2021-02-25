@@ -1,7 +1,13 @@
 import uuid
 
+from promptpay import qrcode
+
+from saleor.payment.models import Payment
+
 from ... import ChargeStatus, TransactionKind
 from ...interface import GatewayConfig, GatewayResponse, PaymentData, PaymentMethodInfo
+
+from p6promptpay.models import PromptPayPayment
 
 
 def capture(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
@@ -74,9 +80,27 @@ def void(payment_information: PaymentData, config: GatewayConfig) -> GatewayResp
 def pending(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
     error = None
     success = True
+    promptpay_id=config.connection_params['promptpay_id']
+    amount = payment_information.amount
+
+    if not PromptPayPayment.objects.filter(payment_id=payment_information.payment_id):
+        payment = Payment.objects.get(id=payment_information.payment_id)
+        qr_code = qrcode.generate_payload(promptpay_id, amount)
+        #TODO: order is not present, at this state
+        PromptPayPayment.objects.create(
+            order = payment.order,
+            payment=payment,
+            promptpay_id=promptpay_id,
+            amount=amount,
+            qr_code=qr_code
+        )
+
+    action_required_data = {"qr_code": qr_code}
+
     return GatewayResponse(
         is_success=success,
-        action_required=False,
+        action_required=True,
+        action_required_data=action_required_data,
         kind=TransactionKind.PENDING,
         amount=payment_information.amount,
         currency=payment_information.currency,
