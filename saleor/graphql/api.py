@@ -25,6 +25,8 @@ from .webhook.schema import WebhookMutations, WebhookQueries
 
 from address_regions.schema import RegionQueries
 
+from p6promptpay.schema import PromptPayPaymentQueries, PromptPayMutations
+
 class Query(
     AccountQueries,
     AppQueries,
@@ -47,7 +49,8 @@ class Query(
     TranslationQueries,
     WarehouseQueries,
     WebhookQueries,
-    RegionQueries
+    RegionQueries,
+    PromptPayPaymentQueries
 ):
     pass
 
@@ -74,6 +77,7 @@ class Mutation(
     ShopMutations,
     WarehouseMutations,
     WebhookMutations,
+    PromptPayMutations,
 ):
     pass
 

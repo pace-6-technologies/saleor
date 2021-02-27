@@ -46,6 +46,9 @@ class CheckoutPermissions(BasePermissionEnum):
 class OrderPermissions(BasePermissionEnum):
     MANAGE_ORDERS = "order.manage_orders"
 
+class PaymentPermissions(BasePermissionEnum):
+    MANAGE_PAYMENTS = "order.manage_payments"
+
 
 class PagePermissions(BasePermissionEnum):
     MANAGE_PAGES = "page.manage_pages"

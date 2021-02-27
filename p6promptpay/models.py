@@ -21,5 +21,11 @@ class PromptPayPayment(models.Model):
         default=Decimal("0.0"),
     )
 
+    payment_proof_image_base64 = models.TextField(null=True, blank=False)
+    payment_proof_image_file_name = models.CharField(max_length=1000, null=True, blank=False)
+    payment_proof_upload_timestamp = models.DateTimeField(null=True, blank=False)
+    payment_proof_upload_note = models.CharField(max_length=1000, null=True, blank=False)
+    payment_proof_upload_note_order_token = models.CharField(max_length=36, null=False, blank=False)
+
     def __str__(self):
         return "PromptPayPayment(Order: {}, promtpay id: {}, amount: {})".format(self.promptpay_id, self.amount)

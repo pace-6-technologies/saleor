@@ -173,10 +173,11 @@ class OrderError(Error):
         required=False,
     )
 
+class PaymentError(Error):
+    code = PaymentErrorCode(description="The error code.", required=True)
 
 class InvoiceError(Error):
     code = InvoiceErrorCode(description="The error code.", required=True)
-
 
 class PermissionGroupError(Error):
     code = PermissionGroupErrorCode(description="The error code.", required=True)

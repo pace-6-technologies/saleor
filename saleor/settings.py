@@ -218,6 +218,8 @@ INSTALLED_APPS = [
     "django_countries",
     "django_filters",
     "phonenumber_field",
+
+    #Pace 6 appps
     "address_regions",
     "p6promptpay"
 ]
