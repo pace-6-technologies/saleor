@@ -21,7 +21,7 @@ class PromptPayPaymentType(DjangoObjectType):
             "payment_proof_image_base64", 
             "payment_proof_image_file_name",
             "payment_proof_upload_note", 
-            "payment_proof_upload_note_order_id", 
+            "payment_proof_upload_note_order_token", 
             "payment_proof_upload_timestamp"
         )
         filter_fields = ["payment", "order"]

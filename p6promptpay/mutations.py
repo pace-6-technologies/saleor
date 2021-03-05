@@ -14,7 +14,7 @@ class PromptPayPaymentUpdateInput(graphene.InputObjectType):
     payment_proof_image_base64 = graphene.String(required=True)
     payment_proof_image_file_name = graphene.String(required=True)
     payment_proof_upload_note = graphene.String(required=True)
-    payment_proof_upload_note_order_id = graphene.String(required=True)
+    payment_proof_upload_note_order_token = graphene.String(required=True)
     payment_proof_upload_timestamp = graphene.String(required=True)
 
 

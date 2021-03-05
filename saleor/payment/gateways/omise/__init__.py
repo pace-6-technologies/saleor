@@ -1,0 +1,3 @@
+OMISE_PUBLIC_KEY_CONFIG_NAME = "Omise Public Key"
+OMISE_PUBLIC_KEY_CONFIG_TXT = "Omise API Public Key"
+OMISE_PUBLIC_KEY = "api_public_key"

@@ -221,7 +221,8 @@ INSTALLED_APPS = [
 
     #Pace 6 appps
     "address_regions",
-    "p6promptpay"
+    "p6promptpay",
+    "omise_payment"
 ]
 
 
@@ -476,6 +477,8 @@ PLUGINS = [
     "saleor.plugins.webhook.plugin.WebhookPlugin",
     "saleor.payment.gateways.dummy.plugin.DummyGatewayPlugin",
     "saleor.payment.gateways.promptpay.plugin.PromptPayGatewayPlugin",
+    "saleor.payment.gateways.omise.promptpay.plugin.OmisePromptPayGatewayPlugin",
+    "saleor.payment.gateways.omise.credit_card.plugin.CreditCardGatewayPlugin",
     # "saleor.payment.gateways.dummy_credit_card.plugin.DummyCreditCardGatewayPlugin",
     # "saleor.payment.gateways.stripe.plugin.StripeGatewayPlugin",
     # "saleor.payment.gateways.braintree.plugin.BraintreeGatewayPlugin",
@@ -546,3 +549,5 @@ JWT_TTL_REFRESH = timedelta(seconds=parse(os.environ.get("JWT_TTL_REFRESH", "30 
 JWT_TTL_REQUEST_EMAIL_CHANGE = timedelta(
     seconds=parse(os.environ.get("JWT_TTL_REQUEST_EMAIL_CHANGE", "1 hour")),
 )
+
+OMISE_API_KEY = os.environ.get("OMISE_API_KEY")
