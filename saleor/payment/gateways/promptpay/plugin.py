@@ -103,5 +103,5 @@ class PromptPayGatewayPlugin(BasePlugin):
     def get_payment_config(self, previous_value):
         config = self._get_gateway_config()
         return [
-            { "field": "promptpay_id", "value": config.connection_params['promptpay_id']}
+            { "field": "promptpay_id", "value": "xxxxxxxxxx"}
         ]

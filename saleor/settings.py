@@ -479,7 +479,7 @@ PLUGINS = [
     "saleor.payment.gateways.promptpay.plugin.PromptPayGatewayPlugin",
     "saleor.payment.gateways.omise.promptpay.plugin.OmisePromptPayGatewayPlugin",
     "saleor.payment.gateways.omise.credit_card.plugin.CreditCardGatewayPlugin",
-    # "saleor.payment.gateways.dummy_credit_card.plugin.DummyCreditCardGatewayPlugin",
+    "saleor.payment.gateways.dummy_credit_card.plugin.DummyCreditCardGatewayPlugin",
     # "saleor.payment.gateways.stripe.plugin.StripeGatewayPlugin",
     # "saleor.payment.gateways.braintree.plugin.BraintreeGatewayPlugin",
     # "saleor.payment.gateways.razorpay.plugin.RazorpayGatewayPlugin",

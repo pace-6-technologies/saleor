@@ -6,7 +6,7 @@ from ...utils import get_supported_currencies, require_active_plugin
 
 from ....interface import GatewayConfig
 
-from ..credit_card import capture, confirm, refund, pending, void, process_payment
+from ..credit_card import capture, confirm, refund, pending, void, process_payment, get_client_token
 from ...omise import OMISE_PUBLIC_KEY, OMISE_PUBLIC_KEY_CONFIG_NAME, OMISE_PUBLIC_KEY_CONFIG_TXT
 
 GATEWAY_NAME = "Omise Credit Card"
@@ -20,11 +20,17 @@ class CreditCardGatewayPlugin(BasePlugin):
     PLUGIN_NAME = GATEWAY_NAME
     DEFAULT_ACTIVE = False
     DEFAULT_CONFIGURATION = [
+        {"name": OMISE_PUBLIC_KEY_CONFIG_NAME, "value": ""},
         {"name": "Store customers card", "value": False},
         {"name": "Automatic payment capture", "value": True},
         {"name": "Supported currencies", "value": "THB"},
     ]
     CONFIG_STRUCTURE = {
+        OMISE_PUBLIC_KEY_CONFIG_NAME: {
+            "type": ConfigurationTypeField.STRING,
+            "help_text": OMISE_PUBLIC_KEY_CONFIG_TXT,
+            "label": OMISE_PUBLIC_KEY_CONFIG_TXT,
+        },
         "Store customers card": {
             "type": ConfigurationTypeField.BOOLEAN,
             "help_text": "Determines if Saleor should store cards.",
@@ -50,8 +56,10 @@ class CreditCardGatewayPlugin(BasePlugin):
             gateway_name=GATEWAY_NAME,
             auto_capture=configuration["Automatic payment capture"],
             supported_currencies=configuration["Supported currencies"],
-            connection_params={},
             store_customer=configuration["Store customers card"],
+            connection_params = {
+                OMISE_PUBLIC_KEY: configuration[OMISE_PUBLIC_KEY_CONFIG_NAME]
+            },
         )
 
     def _get_gateway_config(self):
@@ -105,4 +113,13 @@ class CreditCardGatewayPlugin(BasePlugin):
     @require_active_plugin
     def get_payment_config(self, previous_value):
         config = self._get_gateway_config()
-        return [{"field": "store_customer_card", "value": config.store_customer}]
+        return [
+            { 
+                "field": OMISE_PUBLIC_KEY, 
+                "value": config.connection_params[OMISE_PUBLIC_KEY]
+            },
+            { 
+                "field": "store_customer_card", 
+                "value": config.store_customer
+            }
+        ]
