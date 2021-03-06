@@ -1,4 +1,4 @@
-import uuid
+import omise
 
 from promptpay import qrcode
 
@@ -10,9 +10,9 @@ from ....interface import GatewayConfig, GatewayResponse, PaymentData, PaymentMe
 
 from omise_payment.models import PromptPayPayment
 
- omise.api_secret = settings.OMISE_API_KEY
+omise.api_secret = settings.OMISE_API_KEY
 
- 
+
 def create_charge(amount, currency="THB"):
     return omise.Charge.create(
         amount = int(amount * 100),
