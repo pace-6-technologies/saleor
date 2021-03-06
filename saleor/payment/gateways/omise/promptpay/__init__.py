@@ -13,11 +13,11 @@ from omise_payment.models import PromptPayPayment
 omise.api_secret = settings.OMISE_API_KEY
 
 
-def create_charge(amount, currency="THB"):
+def create_charge(config: GatewayConfig, payment_information: PaymentData):
     return omise.Charge.create(
-        amount = int(amount * 100),
-        currency="THB",
-        source = { "type": "promptpay" }
+        amount=int(payment_information.amount * 100),
+        currency=payment_information.currency,
+        source={ "type": "promptpay" }
     )
 
 def capture(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
@@ -90,27 +90,25 @@ def void(payment_information: PaymentData, config: GatewayConfig) -> GatewayResp
 def pending(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
     error = None
     success = True
-    amount = payment_information.amount
-
     if not PromptPayPayment.objects.filter(payment_id=payment_information.payment_id):
         payment = Payment.objects.get(id=payment_information.payment_id)
-        amount = payment_information.amount
-        charge = create_charge(config, amount)
-
+        charge = create_charge(config, payment_information)
         #TODO: order is not present, at this state
         PromptPayPayment.objects.create(
             order = payment.order,
             payment=payment,
-            source_id=charge_id.source.id,
+            source_id=charge.source.id,
             charge_id=charge.id,
             amount=charge.amount,
             amount_net=charge.net,
             amount_fee=charge.fee,
             currency=charge.currency,
-            qr_code_url=charge.source.scannable_code.image.download_url
+            qr_code_url=charge.source.scannable_code.image.download_uri
         )
 
-    action_required_data = {"qr_code_url": charge.source.scannable_code.image.download_url}
+    action_required_data = {
+        "qr_code_url": charge.source.scannable_code.image.download_uri
+    }
 
     return GatewayResponse(
         is_success=success,
