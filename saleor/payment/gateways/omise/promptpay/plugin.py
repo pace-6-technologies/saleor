@@ -8,7 +8,7 @@ from ...utils import get_supported_currencies, require_active_plugin
 
 from ....interface import GatewayConfig
 
-from ..promptpay import capture, confirm, refund, pending, void, process_payment
+from ..promptpay import authorize, capture, confirm, refund, pending, void, process_payment
 from ...omise import OMISE_PUBLIC_KEY, OMISE_PUBLIC_KEY_CONFIG_NAME, OMISE_PUBLIC_KEY_CONFIG_TXT
 
 GATEWAY_NAME = "Omise PromptPay"

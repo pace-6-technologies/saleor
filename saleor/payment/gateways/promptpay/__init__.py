@@ -116,17 +116,4 @@ def process_payment(
     payment_information: PaymentData, config: GatewayConfig
 ) -> GatewayResponse:
     """Process the payment."""
-    token = payment_information.token
-
-    # Process payment normally if payment token is valid
-    if token not in dict(ChargeStatus.CHOICES):
-        return pending(payment_information, config)
-
-    # Process payment by charge status which is selected in the payment form
-    # Note that is for testing by dummy gateway only
-    charge_status = token
-
-    capture_response = capture(payment_information, config)
-    if charge_status == ChargeStatus.FULLY_REFUNDED:
-        return refund(payment_information, config)
-    return capture_response
+    return pending(payment_information, config)

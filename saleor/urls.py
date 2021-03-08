@@ -9,6 +9,8 @@ from .graphql.views import GraphQLView
 from .plugins.views import handle_plugin_webhook
 from .product.views import digital_product
 
+from omise_payment.views import webhook as omise_webhook
+
 urlpatterns = [
     url(r"^graphql/", csrf_exempt(GraphQLView.as_view(schema=schema)), name="api"),
     url(
@@ -20,6 +22,12 @@ urlpatterns = [
         r"plugins/(?P<plugin_id>[.0-9A-Za-z_\-]+)/",
         handle_plugin_webhook,
         name="plugins",
+    ),
+
+    url(
+        r"omise/webhook/", 
+        omise_webhook, 
+        name="omise-webhook",
     ),
 ]
 

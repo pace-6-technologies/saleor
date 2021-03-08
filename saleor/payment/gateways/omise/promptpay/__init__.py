@@ -8,7 +8,7 @@ from saleor.payment.models import Payment
 from .... import ChargeStatus, TransactionKind
 from ....interface import GatewayConfig, GatewayResponse, PaymentData, PaymentMethodInfo
 
-from omise_payment.models import PromptPayPayment
+from omise_payment.models import Payment as OmisePayment
 
 omise.api_secret = settings.OMISE_API_KEY
 
@@ -18,6 +18,24 @@ def create_charge(config: GatewayConfig, payment_information: PaymentData):
         amount=int(payment_information.amount * 100),
         currency=payment_information.currency,
         source={ "type": "promptpay" }
+    )
+
+def authorize(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
+    """Perform capture transaction. Will be done manually via dashboard"""
+    """TODO: Store payment transfer prove"""
+    error = None
+    success = True
+    if not success:
+        error = "Unable to process capture"
+
+    return GatewayResponse(
+        is_success=success,
+        action_required=False,
+        kind=TransactionKind.AUTH,
+        amount=payment_information.amount,
+        currency=payment_information.currency,
+        transaction_id=payment_information.token or "",
+        error=error
     )
 
 def capture(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
@@ -90,14 +108,15 @@ def void(payment_information: PaymentData, config: GatewayConfig) -> GatewayResp
 def pending(payment_information: PaymentData, config: GatewayConfig) -> GatewayResponse:
     error = None
     success = True
-    if not PromptPayPayment.objects.filter(payment_id=payment_information.payment_id):
+    if not OmisePayment.objects.filter(payment_id=payment_information.payment_id):
         payment = Payment.objects.get(id=payment_information.payment_id)
         charge = create_charge(config, payment_information)
         #TODO: order is not present, at this state
-        PromptPayPayment.objects.create(
+        OmisePayment.objects.create(
             order = payment.order,
             payment=payment,
             source_id=charge.source.id,
+            source_type=charge.source.type,
             charge_id=charge.id,
             amount=charge.amount,
             amount_net=charge.net,
@@ -129,17 +148,5 @@ def process_payment(
     payment_information: PaymentData, config: GatewayConfig
 ) -> GatewayResponse:
     """Process the payment."""
-    token = payment_information.token
 
-    # Process payment normally if payment token is valid
-    if token not in dict(ChargeStatus.CHOICES):
-        return pending(payment_information, config)
-
-    # Process payment by charge status which is selected in the payment form
-    # Note that is for testing by dummy gateway only
-    charge_status = token
-
-    capture_response = capture(payment_information, config)
-    if charge_status == ChargeStatus.FULLY_REFUNDED:
-        return refund(payment_information, config)
-    return capture_response
+    return pending(payment_information, config)
