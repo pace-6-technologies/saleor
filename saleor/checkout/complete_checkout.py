@@ -556,18 +556,19 @@ def complete_checkout(
     action_data = txn.action_required_data if action_required else {}
 
     order = None
-    if not action_required:
-        try:
-            order = _create_order(
-                checkout=checkout,
-                order_data=order_data,
-                user=user,  # type: ignore
-            )
-            # remove checkout after order is successfully created
-            checkout.delete()
-        except InsufficientStock as e:
-            release_voucher_usage(order_data)
-            gateway.payment_refund_or_void(payment)
-            raise ValidationError(f"Insufficient product stock: {e.item}", code=e.code)
+    # if not action_required:
+    # CHATCHAI: create order and clear checkout regardless of action required
+    try:
+        order = _create_order(
+            checkout=checkout,
+            order_data=order_data,
+            user=user,  # type: ignore
+        )
+        # remove checkout after order is successfully created
+        checkout.delete()
+    except InsufficientStock as e:
+        release_voucher_usage(order_data)
+        gateway.payment_refund_or_void(payment)
+        raise ValidationError(f"Insufficient product stock: {e.item}", code=e.code)
 
     return order, action_required, action_data
