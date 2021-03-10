@@ -857,8 +857,11 @@ class CheckoutComplete(BaseMutation):
                     # The order is already created. We return it as a success
                     # checkoutComplete response. Order is anonymized for not logged in
                     # user
+                    txn = order.payments.first().transactions.first()
                     return CheckoutComplete(
-                        order=order, confirmation_needed=False, confirmation_data={}
+                        order=order,
+                        confirmation_needed=txn.action_required,
+                        confirmation_data=txn.action_required_data
                     )
                 raise e
 
