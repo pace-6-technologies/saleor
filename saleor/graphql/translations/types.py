@@ -141,6 +141,11 @@ class ProductTranslation(BaseTranslationType):
         interfaces = [graphene.relay.Node]
         only_fields = EXTENDED_TRANSLATABLE_FIELDS
 
+    @staticmethod
+    def resolve_description_json(root: product_models.ProductTranslation, _info):
+        description = root.description
+        return description if description is not None else {}
+
 
 class ProductTranslatableContent(CountableDjangoObjectType):
     description_json = graphene.JSONString(
@@ -164,6 +169,11 @@ class ProductTranslatableContent(CountableDjangoObjectType):
     def resolve_product(root: product_models.Product, info):
         return ChannelContext(node=root, channel_slug=None)
 
+    @staticmethod
+    def resolve_description_json(root: product_models.Product, _info):
+        description = root.description
+        return description if description is not None else {}
+
 
 class CollectionTranslation(BaseTranslationType):
     description_json = graphene.JSONString(
@@ -177,6 +187,11 @@ class CollectionTranslation(BaseTranslationType):
         model = product_models.CollectionTranslation
         interfaces = [graphene.relay.Node]
         only_fields = EXTENDED_TRANSLATABLE_FIELDS
+
+    @staticmethod
+    def resolve_description_json(root: product_models.CollectionTranslation, _info):
+        description = root.description
+        return description if description is not None else {}
 
 
 class CollectionTranslatableContent(CountableDjangoObjectType):
@@ -204,6 +219,11 @@ class CollectionTranslatableContent(CountableDjangoObjectType):
             ChannelContext(node=collection, channel_slug=None) if collection else None
         )
 
+    @staticmethod
+    def resolve_description_json(root: product_models.Collection, _info):
+        description = root.description
+        return description if description is not None else {}
+
 
 class CategoryTranslation(BaseTranslationType):
     description_json = graphene.JSONString(
@@ -217,6 +237,11 @@ class CategoryTranslation(BaseTranslationType):
         model = product_models.CategoryTranslation
         interfaces = [graphene.relay.Node]
         only_fields = EXTENDED_TRANSLATABLE_FIELDS
+
+    @staticmethod
+    def resolve_description_json(root: product_models.CategoryTranslation, _info):
+        description = root.description
+        return description if description is not None else {}
 
 
 class CategoryTranslatableContent(CountableDjangoObjectType):
@@ -241,6 +266,11 @@ class CategoryTranslatableContent(CountableDjangoObjectType):
     def resolve_category(root: product_models.Category, _info):
         return root
 
+    @staticmethod
+    def resolve_description_json(root: product_models.Category, _info):
+        description = root.description
+        return description if description is not None else {}
+
 
 class PageTranslation(BaseTranslationType):
     content_json = graphene.JSONString(
@@ -260,6 +290,11 @@ class PageTranslation(BaseTranslationType):
             "seo_title",
             "title",
         ]
+
+    @staticmethod
+    def resolve_content_json(root: page_models.PageTranslation, _info):
+        content = root.content
+        return content if content is not None else {}
 
 
 class PageTranslatableContent(CountableDjangoObjectType):
@@ -296,6 +331,11 @@ class PageTranslatableContent(CountableDjangoObjectType):
             .filter(pk=root.id)
             .first()
         )
+
+    @staticmethod
+    def resolve_content_json(root: page_models.Page, _info):
+        content = root.content
+        return content if content is not None else {}
 
 
 class VoucherTranslation(BaseTranslationType):
