@@ -24,25 +24,28 @@ def get_payment(data: dict):
     return Payment.objects.get(id=omise_payments[0].payment_id)
 
 def validate_request_json(raw_data):
-    try:
-        data = json.loads(raw_data)
-    except:
-        #FIXME: need to log for analysis
-        pass:
     REQUIRED_KEYS = (
         "key",
         "id",
         "created_at",
     )
-    if all (k in foo for k in REQUIRED_KEYS:
-        return data
-    raise HttpResponseBadRequest()
+    try:
+        data = json.loads(raw_data)
+        if all(k in data for k in REQUIRED_KEYS):
+            return data
+    except:
+        #FIXME: need to log for analysis
+        pass
+    return {}
 
 
 @csrf_exempt
 @require_POST
 def webhook(request):
     data = validate_request_json(request.body)
+    if not data:
+        return HttpResponseBadRequest()
+
     meta = {}
     for k, v in request.headers.items():
         if isinstance(v, str):
