@@ -1,6 +1,6 @@
 import copy, json, datetime
 from django.utils import timezone
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
@@ -23,11 +23,26 @@ def get_payment(data: dict):
 
     return Payment.objects.get(id=omise_payments[0].payment_id)
 
+def validate_request_json(raw_data):
+    try:
+        data = json.loads(raw_data)
+    except:
+        #FIXME: need to log for analysis
+        pass:
+    REQUIRED_KEYS = (
+        "key",
+        "id",
+        "created_at",
+    )
+    if all (k in foo for k in REQUIRED_KEYS:
+        return data
+    raise HttpResponseBadRequest()
+
+
 @csrf_exempt
 @require_POST
 def webhook(request):
-    jsondata = request.body
-    data = json.loads(jsondata)
+    data = validate_request_json(request.body)
     meta = {}
     for k, v in request.headers.items():
         if isinstance(v, str):
