@@ -6,7 +6,7 @@ from ...utils import get_supported_currencies, require_active_plugin
 
 from ....interface import GatewayConfig
 
-from ..credit_card import capture, confirm, refund, void, process_payment, get_client_token
+from ..credit_card import capture, void, process_payment, get_client_token
 from ...omise import OMISE_PUBLIC_KEY, OMISE_PUBLIC_KEY_CONFIG_NAME, OMISE_PUBLIC_KEY_CONFIG_TXT
 
 GATEWAY_NAME = "Omise Credit Card"
