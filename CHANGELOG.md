@@ -10,6 +10,16 @@ All notable, unreleased changes to this project will be documented in this file.
 - Add missing span in PluginManager - #6900 by @fowczarek
 - Fix Sentry reporting - #6902 by @fowczarek
 - Fix removing page types in cleardb command - #6918 by @fowczarek
+- Add possibility to apply discount to order/order line with status `DRAFT` - #6930 by @korycins
+- Deprecate API fields `Order.discount`, `Order.discountName`, `Order.translatedDiscountName` - #6874 by @korycins
+- Fix argument validation in page resolver - #6960 by @fowczarek
+- Drop `data` field from checkout line model - #6961 by @fowczarek
+- Fix `totalCount` on connection resolver without `first` or `last` - #6975 by @fowczarek
+- Fix variant resolver on `DigitalContent` - #6983 by @fowczarek
+- Fix race condition on `send_fulfillment-confirmation` - #6988 by @fowczarek
+- Fix resolver by id and slug for product and product variant - #6985 by @d-wysocki
+- Add optional support for reporting resource limits via a stub field in `shop` - #6967 by @NyanKiyoshi
+
 
 ### Breaking
 - Multichannel MVP: Multicurrency - #6242 by @fowczarek @d-wysocki
@@ -22,6 +32,21 @@ All notable, unreleased changes to this project will be documented in this file.
 - Drop `CHECKOUT_QUANTITY_CHANGED` webhook - #6797 by @d-wysocki
 - Drop deprecated `taxRate` field from `ProductType` - #6795 by @d-wysocki
 - Remove resolving user's location from GeoIP; drop `PaymentInput.billingAddress` input field - #6784 by @maarcingebala
+- Change the payload of the order webhook to handle discounts list, added fields: `Order.discounts`,
+`OrderLine.unit_discount_amount`,`OrderLine.unit_discount_type`, `OrderLine.unit_discount_reason` , remove fields:
+`Order.discount_amount`, `Order.discount_name`, `Order.translated_discount_name`- #6874 by @korycins
+
+- Update checkout performance - introduce `CheckoutInfo` data class - #6958 by @IKarbowiak; Introduced changes in plugin methods definitions:
+  - in the following methods, the `checkout` parameter changed to `checkout_info`:
+    - `calculate_checkout_total`
+    - `calculate_checkout_subtotal`
+    - `calculate_checkout_shipping`
+    - `get_checkout_shipping_tax_rate`
+    - `calculate_checkout_line_total`
+    - `calculate_checkout_line_unit_price`
+    - `get_checkout_line_tax_rate`
+    - `preprocess_order_creation`
+  - additionally, `preprocess_order_creation` was extend with `lines_info` parameter
 
 ### Other
 
@@ -63,6 +88,8 @@ All notable, unreleased changes to this project will be documented in this file.
 - Fix CheckoutLinesInfoByCheckoutTokenLoader dataloader - #6929 by @IKarbowiak
 - Change the `app` query to return info about the currently authenticated app - #6928 by @d-wysocki
 - Add default sorting by rank for search products - #6936 by @d-wysocki
+- Fix exporting product description to xlsx - #6959 by @IKarbowiak
+- Add `Shop.version` field to query API version - #6980 by @maarcingebala
 
 # 2.11.1
 
