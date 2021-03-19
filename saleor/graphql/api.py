@@ -27,6 +27,8 @@ from address_regions.schema import RegionQueries
 
 from p6promptpay.schema import PromptPayPaymentQueries, PromptPayMutations
 
+from .csv_import.schema import CsvUploadQueries, CsvUploadTypeQueries, CsvUploadMutations
+
 class Query(
     AccountQueries,
     AppQueries,
@@ -50,7 +52,9 @@ class Query(
     WarehouseQueries,
     WebhookQueries,
     RegionQueries,
-    PromptPayPaymentQueries
+    PromptPayPaymentQueries,
+    CsvUploadTypeQueries,
+    CsvUploadQueries
 ):
     pass
 
@@ -78,6 +82,7 @@ class Mutation(
     WarehouseMutations,
     WebhookMutations,
     PromptPayMutations,
+    CsvUploadMutations
 ):
     pass
 

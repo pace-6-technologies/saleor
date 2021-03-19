@@ -221,7 +221,8 @@ INSTALLED_APPS = [
     #Pace 6 appps
     "address_regions",
     "p6promptpay",
-    "omise_payment"
+    "omise_payment",
+    "csv_import"
 ]
 
 
